@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+
+{% block title %}Premade Terrarium Shop{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto my-12 p-8">
+        <h1 class="text-5xl font-extrabold text-center mb-12 bg-gradient-to-r from-gray-900 to-green-800 bg-clip-text text-transparent">
+            Terrarium Shop
+        </h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            
+            {% for product in products %}
+            <div class="green-glow bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl flex flex-col hover:shadow-green-500/50 transition-shadow duration-300" id="product-{{ product.id }}">
+                
+                <div class="h-48 bg-gray-700/50 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    {% set is_external = product.image.startswith('http') %}
+
+                    {% if product.image == 'default.jpg' %}
+                        <span class="text-8xl text-green-400">🪴</span>
+                    {% elif is_external %}
+                        <img src="{{ product.image }}" alt="{{ product.name }}" class="object-cover w-full h-full">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='img/' + product.image) }}" alt="{{ product.name }}" class="object-cover w-full h-full">
+                    {% endif %}
+                </div>
+
+                <h3 class="text-3xl font-semibold text-green-400 mb-2">{{ product.name }}</h3>
+                
+                <div class="mb-4 flex-grow">
+                    <p class="text-lg text-white line-clamp-3" id="short-desc-{{ loop.index }}">
+                        {{ product.description }}
+                    </p>
+                    
+                    <p class="text-lg text-white hidden" id="full-desc-{{ loop.index }}">
+                        {{ product.description }}
+                    </p>
+                    
+                    <button onclick="toggleDescription('{{ loop.index }}')"
+                            class="text-green-300 hover:text-green-200 text-sm font-semibold mt-1">
+                        Read More
+                    </button>
+                </div>
+                
+                <div class="mt-auto pt-4 border-t border-green-500/30">
+    
+                    <p class="font-extrabold text-3xl text-white mb-3">
+                        ₹{{ product.price | round(2) }}
+                    </p>
+                    
+                    <div class="flex justify-end space-x-3">
+                        
+                        <a href="{{ url_for('buy_now', item_id=product.id) }}" 
+                            class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg transition-colors duration-300">
+                            Buy Now
+                        </a>
+                        
+                        <button onclick="addToCartAjax('{{ product.id }}')" 
+                            class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    
+    <script>
+        function toggleDescription(index) {
+            const shortDesc = document.getElementById('short-desc-' + index);
+            const fullDesc = document.getElementById('full-desc-' + index);
+            const button = document.querySelector(`button[onclick="toggleDescription('${index}')"]`);
+
+            if (shortDesc.classList.contains('line-clamp-3')) {
+                shortDesc.classList.remove('line-clamp-3');
+                shortDesc.classList.add('hidden');
+                fullDesc.classList.remove('hidden');
+                button.textContent = 'Read Less';
+            } else {
+                shortDesc.classList.add('line-clamp-3');
+                shortDesc.classList.remove('hidden');
+                fullDesc.classList.add('hidden');
+                button.textContent = 'Read More';
+            }
+        }
+    </script>
+    
+    <script>
+        // ... (existing toggleDescription function) ...
+
+        function addToCartAjax(productId) {
+            // Get the cart count element to update it instantly
+            const cartCountElement = document.querySelector('.header-layer .relative .rounded-full');
+            
+            // Construct the URL for the new AJAX route
+            const url = `{{ url_for('add_premade_to_cart_ajax', item_id=0) }}`.replace('0', productId);
+
+            fetch(url, {
+                method: 'POST', // Use POST method as defined in Flask route
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 1. Update the cart count immediately
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.cart_count;
+                    }
+
+                    // 2. Add the visual confirmation pop-up (+1)
+                    const cartIcon = document.querySelector('.header-layer .relative');
+                    if (cartIcon) {
+                        // Create the floating element
+                        const popUp = document.createElement('span');
+                        popUp.textContent = '+1';
+                        popUp.style.cssText = `
+                            position: absolute;
+                            top: -10px;
+                            right: -10px;
+                            font-size: 1.2rem;
+                            font-weight: bold;
+                            color: #10B981; /* Tailwind green-500 equivalent */
+                            opacity: 1;
+                            transition: all 0.5s ease-out;
+                            pointer-events: none; /* Ignore clicks */
+                            z-index: 1000;
+                        `;
+
+                        // Insert it near the cart icon
+                        cartIcon.appendChild(popUp);
+
+                        // Animate it: fade out and move up
+                        setTimeout(() => {
+                            popUp.style.transform = 'translateY(-15px)';
+                            popUp.style.opacity = '0';
+                        }, 50); 
+                        
+                        // Remove element from DOM after animation finishes
+                        setTimeout(() => {
+                            popUp.remove();
+                        }, 550); 
+                    }
+                    
+                    // 3. Button confirmation (Added! message)
+                    const button = document.querySelector(`button[onclick="addToCartAjax(${productId})"]`);
+                    if (button) {
+                        button.textContent = 'Added!';
+                        button.classList.add('bg-yellow-500');
+                        button.classList.remove('bg-green-500');
+                        
+                        // Revert button text/color after a short delay
+                        setTimeout(() => {
+                            button.textContent = 'Add to Cart';
+                            button.classList.add('bg-green-500');
+                            button.classList.remove('bg-yellow-500');
+                        }, 1000);
+                    }
+                } else {
+                    console.error('Failed to add product to cart:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during AJAX call:', error);
+                window.location.href = `{{ url_for('add_premade_to_cart', item_id=0) }}`.replace('0', productId);
+            });
+        }
+    </script>
+{% endblock %}

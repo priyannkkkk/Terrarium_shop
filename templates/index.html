@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}Welcome to TerraNova{% endblock %}
+
+{% block content %}
+    
+    <div class="text-center max-w-4xl mx-auto pt-10 pb-16">
+        <h2 class="text-6xl font-extrabold mb-6 bg-gradient-to-r from-gray-900 to-green-800 bg-clip-text text-transparent">
+            Welcome to Your Miniature World.
+        </h2>
+        <p class="text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            Explore the tranquil beauty of 
+            <span class="brush-underline text-gray-900 font-bold">contained ecosystems</span> 
+            designed to bring calm, creativity, and 
+            <span class="brush-underline text-gray-900 font-bold">life into your space.</span>
+        </p>
+    </div>
+    
+    <div class="max-w-6xl mx-auto py-12 px-4">
+        <h3 class="text-4xl font-bold text-center text-gray-900 mb-16">Discover the Magic of Terrariums</h3>
+        
+        <div class="space-y-16">
+            
+            <div class="green-glow bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-green-500/50 transition-shadow duration-300">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="col-span-1 h-56 bg-gray-700/50 rounded-lg flex items-center justify-center text-6xl text-green-400 green-glow overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/first.jpg') }}" alt="Nature in a Jar" class="object-cover w-full h-full">
+                    </div>
+                    <div class="col-span-2">
+                        <h4 class="text-3xl font-semibold text-green-400 mb-3">Nature in a Jar</h4>
+                        <p class="text-lg text-white leading-relaxed">
+                            Our terrariums are tiny ecosystems, carefully crafted to bring a piece of nature right into your home. Each jar holds a mini world of lush greenery, delicate moss, and charming plants—allowing you to enjoy the beauty and tranquility of nature, even in the smallest spaces. It’s nature, beautifully contained, yet boundless in its charm.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="green-glow bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-green-500/50 transition-shadow duration-300">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="col-span-2 lg:order-2">
+                        <h4 class="text-3xl font-semibold text-green-400 mb-3">The Feel-Good Factor</h4>
+                        <p class="text-lg text-white leading-relaxed">
+                            There’s something magical about looking at a terrarium. The vibrant greens, the delicate textures, and the peaceful little landscape inside can instantly lift your mood. Caring for these tiny worlds brings a sense of calm and joy, helping you connect with nature, relieve stress, and feel a spark of happiness every day.
+                        </p>
+                    </div>
+                    <div class="col-span-1 h-56 bg-gray-700/50 rounded-lg flex items-center justify-center text-6xl text-green-400 green-glow lg:order-1 overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/secon.jpg') }}" alt="Terrarium lifting spirits" class="object-cover w-full h-full">
+                    </div>
+                </div>
+            </div>
+
+            <div class="green-glow bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-green-500/50 transition-shadow duration-300">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="col-span-1 h-56 bg-gray-700/50 rounded-lg flex items-center justify-center text-6xl text-green-400 green-glow overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/third.jpg') }}" alt="Basic terrarium structure" class="object-cover w-full h-full">
+                    </div>
+                    <div class="col-span-2">
+                        <h4 class="text-3xl font-semibold text-green-400 mb-3">What is a Terrarium?</h4>
+                        <p class="text-lg text-white leading-relaxed">
+                            A terrarium is a miniature garden enclosed in glass—a self-sustaining ecosystem where plants thrive with minimal care. Perfect for desks, shelves, or coffee tables, terrariums are more than just plants—they’re living art that evolves over time, adding life and freshness wherever they sit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="green-glow bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-green-500/50 transition-shadow duration-300">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="col-span-2 lg:order-2">
+                        <h4 class="text-3xl font-semibold text-green-400 mb-3">More Than Decoration</h4>
+                        <p class="text-lg text-white leading-relaxed">
+                            They aren’t just decorative; they’re little pockets of happiness, mood boosters, and sparks of creativity. Whether you want to brighten your space, add a touch of nature to your home, or simply enjoy the satisfaction of nurturing life, terrariums bring calm, beauty, and joy into everyday life.
+                        </p>
+                    </div>
+                    <div class="col-span-1 h-56 bg-gray-700/50 rounded-lg flex items-center justify-center text-6xl text-green-400 green-glow lg:order-1 overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/last.jpg') }}" alt="Detailed, vibrant terrarium" class="object-cover w-full h-full">
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="text-center py-16">
+        <h3 class="text-4xl font-bold text-gray-900 mb-6">Ready to Build Your Miniature World?</h3>
+        <p class="text-xl text-gray-700 mb-8">Choose from our curated collection or unleash your creativity with the custom builder.</p>
+        <div class="flex justify-center space-x-6">
+            <a href="{{ url_for('shop') }}" class="nav-item px-10 py-4 text-lg bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl green-glow">
+                View Premade Collection
+            </a>
+            <a href="{{ url_for('customize') }}" class="nav-item px-10 py-4 text-lg bg-gray-300 hover:bg-gray-400 text-gray-900 font-semibold rounded-xl green-glow backdrop-blur-sm">
+                Design My Custom Terrarium
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

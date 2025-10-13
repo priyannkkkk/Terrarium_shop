@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Order Confirmed!{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto my-24 p-12 green-glow bg-gray-800/90 backdrop-blur-sm rounded-3xl text-white text-center">
+    
+    <div class="text-6xl mb-6 text-green-400">
+        ✅
+    </div>
+    
+    <h2 class="text-5xl font-bold mb-4 text-white">Thank You for Your Order!</h2>
+    
+    <p class="text-xl text-green-200 mb-8">
+        Your miniature world is being carefully prepared by the TerraNova team.
+        You will receive an email confirmation shortly with tracking details.
+    </p>
+
+    <div class="my-8 py-6 border-t border-b border-green-500/50">
+        <p class="text-2xl font-semibold text-white">Order ID: TN-{{ now.strftime('%Y%m%d') }}-{{ now.timestamp() | round(0) }}</p>
+        <p class="text-lg text-gray-400 mt-2">Note: This is a simulated checkout process.</p>
+    </div>
+
+    <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+        
+        <a href="{{ url_for('shop') }}" class="px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-colors duration-300">
+            Continue Shopping
+        </a>
+        
+        <a href="{{ url_for('home') }}" class="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition-colors duration-300">
+            Return to Homepage
+        </a>
+    </div>
+
+</div>
+{% endblock %}

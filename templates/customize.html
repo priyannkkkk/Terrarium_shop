@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+
+{% block title %}Advanced Custom Builder{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto my-12 p-8 green-glow bg-gray-800/90 backdrop-blur-sm rounded-3xl text-white">
+    <h2 class="text-4xl font-bold mb-4 text-white text-center">Design Your Perfect Terrarium</h2>
+    <p class="text-lg text-green-200 mb-8 text-center">Choose options for all six categories below. Layers 4-6 allow multiple selections.</p>
+
+    <form action="{{ url_for('build_summary') }}" method="POST" class="space-y-10">
+        
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">1. Substrates & Growing Medium (Choose One)</legend>
+            
+            {% set growing_medium_options = [
+                ["Coco Peat / Peat", 700.00], 
+                ["Potting Soil / Medium", 650.00], 
+                ["Vermicompost / Compost", 790.00], 
+                ["Bark", 440.00], 
+                ["Wood", 400.00], 
+                ["Humic", 530.00]
+            ] %}
+            
+            {% for name, price in growing_medium_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="radio" name="growing_medium" value="{{ name }}|{{ price }}" required 
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">2. Drainage & Aeration Layer (Choose One)</legend>
+            
+            {% set drainage_options = [
+                ["Perlite", 350.00], 
+                ["Vermiculite", 310.00], 
+                ["Clay Aggregate", 530.00], 
+                ["Sand", 175.00], 
+                ["Gravel", 220.00], 
+                ["Charcoal", 620.00]
+            ] %}
+            
+            {% for name, price in drainage_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="radio" name="drainage_layer" value="{{ name }}|{{ price }}" required
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+        
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">3. Hardscape & Decorative Stones (Choose One)</legend>
+            
+            {% set hardscape_options = [
+                ["Pebbles (Onyx, River, Coloured)", 1060.00], 
+                ["Stone / Rocks", 1320.00], 
+                ["Quartz / Quartzite", 1590.00], 
+                ["Marble / Jasper", 1770.00], 
+                ["Polished / Tumbled (Finish)", 1230.00]
+            ] %}
+            
+            {% for name, price in hardscape_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="radio" name="hardscape_stones" value="{{ name }}|{{ price }}" required
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">4. Plants & Living Elements (Choose 1 or more)</legend>
+            
+            {% set plants_options = [
+                ["Succulents / Cactus", 1320.00], 
+                ["Jasmine / Rose / Lavender", 2200.00], 
+                ["Bonsai", 3980.00], 
+                ["Vines / Creepers", 1590.00], 
+                ["Moss", 880.00]
+            ] %}
+            
+            {% for name, price in plants_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="checkbox" name="plants[]" value="{{ name }}|{{ price }}"
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 rounded focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">5. Care & Amendments (Choose 1 or more)</legend>
+            
+            {% set care_options = [
+                ["Fertilizer / Nutrients", 790.00], 
+                ["Pest Control (Neem / Insecticide)", 1060.00], 
+                ["Fungicide", 700.00]
+            ] %}
+            
+            {% for name, price in care_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="checkbox" name="care[]" value="{{ name }}|{{ price }}"
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 rounded focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+        
+        <fieldset class="p-6 border border-green-500/30 rounded-lg space-y-4">
+            <legend class="text-2xl font-bold px-3 text-green-400">6. Accessories & Containers (Choose 1 or more)</legend>
+            
+            {% set accessory_options = [
+                ["Terrarium / Container / Vase", 2650.00], 
+                ["Figurines / Toys (Suggestion based on your request)", 1320.00], 
+                ["Glass", 1940.00], 
+                ["Rod (Support)", 440.00]
+            ] %}
+            
+            {% for name, price in accessory_options %}
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 text-lg cursor-pointer flex-grow">
+                        <input type="checkbox" name="accessories[]" value="{{ name }}|{{ price }}"
+                               class="h-5 w-5 text-green-500 bg-transparent border-green-500 rounded focus:ring-green-500">
+                        <span>{{ name }}</span>
+                    </label>
+                    <span class="text-green-300 font-semibold">₹{{ price | round(2) }}</span>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit" 
+                class="w-full px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl green-glow transition-colors duration-300">
+            Review & Calculate Price
+        </button>
+
+    </form>
+</div>
+{% endblock %}

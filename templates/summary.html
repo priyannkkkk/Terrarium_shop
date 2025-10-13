@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Custom Build Summary{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto my-12 p-8 green-glow bg-gray-800/90 backdrop-blur-sm rounded-3xl text-white text-center">
+    
+    <h2 class="text-4xl font-bold mb-4 text-white">Your Terrarium Design is Complete!</h2>
+    <p class="text-xl text-green-200 mb-8">Review the components and final price before proceeding to the cart.</p>
+
+    <div class="text-left bg-white/5 p-6 rounded-lg space-y-4">
+        <h3 class="text-2xl font-semibold mb-4 border-b border-green-500/30 pb-2 text-green-400">Selected Components:</h3>
+        
+        {% for component in item.components %}
+            <div class="flex justify-between border-b border-white/10 last:border-b-0 py-1">
+                <span class="text-lg">{{ component.name }}</span>
+                <span class="text-lg font-semibold text-green-300">₹{{ component.price_inr | round(2) }}</span>
+            </div>
+        {% endfor %}
+        
+    </div>
+    
+    <div class="mt-8 pt-6 border-t border-t border-green-500/50 flex justify-between items-center p-4">
+        <h3 class="text-3xl font-bold">Final Price (INR):</h3>
+        <p class="text-4xl font-extrabold text-green-400">₹{{ item.total_price_inr | round(2) }}</p>
+    </div>
+
+    <div class="mt-10 flex justify-center space-x-6">
+        <a href="{{ url_for('add_custom_to_cart') }}" class="nav-item px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl green-glow">
+            Add to Cart
+        </a>
+        
+        <a href="{{ url_for('customize') }}" class="nav-item px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl green-glow backdrop-blur-sm">
+            Modify Design
+        </a>
+    </div>
+</div>
+{% endblock %}

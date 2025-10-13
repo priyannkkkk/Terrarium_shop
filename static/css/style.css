@@ -1,0 +1,152 @@
+/* Custom CSS for the TerraNova Tailwind Design */
+
+/* Utility Classes */
+/* FIX: Removed gradient-bg */
+.light-bg {
+    /* Sets the body background to a light color */
+    background-color: #f8f8f8; 
+}
+
+.header-layer {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(59, 130, 246, 0.9));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+.footer-layer {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(59, 130, 246, 0.9));
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+.green-glow {
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Navigation Specifics */
+.nav-item {
+    transition: all 0.3s ease;
+    position: relative;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+.logo-glow {
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
+}
+
+.professional-spacing {
+    padding: 1.5rem 2rem;
+}
+
+/* Ensure the main content takes up remaining vertical space */
+.main-content {
+    /* FIX: Set the center area to white */
+    background-color: white; 
+    
+    position: relative;
+    z-index: 50;
+}
+
+/* Reset for the sticky footer/header effect */
+html {
+    height: 100%;
+}
+/* --- CRITICAL VIDEO INTRO STYLES --- */
+
+#video-intro {
+    position: fixed; /* Must be fixed to act as an overlay */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black; 
+    z-index: 9999; /* Must be on top */
+    opacity: 1;
+    transition: opacity 2s ease-out;
+}
+
+.video-intro-player {
+    position: absolute; /* Allows video to fill the intro div */
+    top: 50%;
+    left: 50%;
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+/* Class applied by Jinja to hide content on initial load only */
+.main-content-hidden-on-load {
+    opacity: 0 !important; 
+    transition: opacity 1.5s ease-in;
+    display: none !important;
+}
+
+/* Class applied by JS to start the fade-out */
+#video-intro.fade-out {
+    opacity: 0;
+}
+
+/* --- Sticky Layout Adjustments --- */
+
+/* Ensure Header and Footer take up the full width when fixed */
+.header-layer, .footer-layer {
+    width: 100%; /* Ensure full width on fixed elements */
+}
+
+/* Add margin to the main content area to prevent it from hiding behind the fixed header/footer. */
+.main-content {
+    margin-top: 6rem;    /* Space for the fixed Header */
+    margin-bottom: 6rem; /* Space for the fixed Footer */
+    
+    /* Ensure scrollability within the main content area */
+    overflow-y: auto; 
+    
+    /* Make the main content area take up the full available height */
+    min-height: calc(100vh - 12rem); /* 100vh minus (6rem header + 6rem footer) */
+}
+/* --- New Brush Stroke Underline Effect --- */
+/* --- New Brush Stroke Underline Effect --- */
+.brush-underline {
+    position: relative; 
+    display: inline-block;
+    /* Removed color: white !important; to use the inherited text-gray-700 */
+}
+
+/* The pseudo-element creates the brush stroke behind the text */
+.brush-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 5%; 
+    left: -2px; 
+    width: calc(100% + 4px); 
+    height: 14px; 
+    z-index: -1; 
+    opacity: 1; /* Fully opaque for a solid brush look */
+    
+    /* FIX: Using a DARKER, fully saturated green for high contrast */
+    background: linear-gradient(
+        to bottom, 
+        rgba(34, 197, 94, 0.1) 0%, /* Slight transparency at the top */
+        rgba(34, 197, 94, 0.6) 30%, 
+        rgba(22, 163, 74, 0.9) 70%, /* Dark green core color */
+        rgba(34, 197, 94, 0.6) 100% 
+    );
+    border-radius: 6px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); 
+}
