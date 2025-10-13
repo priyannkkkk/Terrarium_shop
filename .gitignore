@@ -1,0 +1,22 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python/IDE files
+__pycache__/
+*.pyc
+.vscode/
+
+# Flask Session Files (CRITICAL for security and portability)
+*.sqlite
+flask-session/
+instance/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Log and Data Files (Often best to ignore large data files, but we are including yours for portability)
+
+# We WILL NOT ignore your CSVs or images since they are essential.
